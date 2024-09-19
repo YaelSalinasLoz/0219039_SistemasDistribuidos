@@ -12,7 +12,7 @@ service Log {
     // Client sends a request to the server and gets back a stream to read the messages
     rpc ConsumeStream(ConsumeRequest) returns (stream ConsumeResponse) {}
     // ProduceStream --> Bidirectional streaming RPC
-    // Comunication between Client and Server usinf read-write stream
+    // Comunication between Client and Server using read-write stream
     rpc ProduceStream(stream ProduceRequest) returns (stream ProduceResponse) {}
     }
 
