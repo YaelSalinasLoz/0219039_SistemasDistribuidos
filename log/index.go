@@ -7,6 +7,7 @@ import (
 	"github.com/tysonmote/gommap"
 )
 
+// Inx
 var (
 	offWidth uint64 = 4
 	posWidth uint64 = 8
@@ -15,11 +16,12 @@ var (
 
 type index struct {
 	file *os.File
-	mmap gommap.MMap
+	mmap gommap.MMap // map files in memory --> allow access to data
 	size uint64
 }
 
 func newIndex(f *os.File, c Config) (*index, error) {
+	// Get file size
 	idx := &index{
 		file: f,
 	}
@@ -27,12 +29,14 @@ func newIndex(f *os.File, c Config) (*index, error) {
 	if err != nil {
 		return nil, err
 	}
+	// Set the size of our index as the size of the file
 	idx.size = uint64(fi.Size())
 	if err = os.Truncate(
 		f.Name(), int64(c.Segment.MaxIndexBytes),
 	); err != nil {
 		return nil, err
 	}
+	// Make the direct mapping between file and memory.
 	if idx.mmap, err = gommap.Map(
 		idx.file.Fd(),
 		gommap.PROT_READ|gommap.PROT_WRITE,
