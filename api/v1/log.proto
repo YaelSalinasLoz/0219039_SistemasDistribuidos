@@ -4,7 +4,39 @@ package log.v1;
 
 option go_package = "github.com/YaelSalinasLoz/0219039_SistemasDistribuidos/api/log_v1";
 
+service Log {
+    // Endpoints --> (typeOfRequest) returns (responseThatEndpointAccepts)
+    rpc Produce(ProduceRequest) returns (ProduceResponse) {}
+    rpc Consume(ConsumeRequest) returns (ConsumeResponse) {}
+    // ConsumeStream --> Server streaming RPC 
+    // Client sends a request to the server and gets back a stream to read the messages
+    rpc ConsumeStream(ConsumeRequest) returns (stream ConsumeResponse) {}
+    // ProduceStream --> Bidirectional streaming RPC
+    // Comunication between Client and Server usinf read-write stream
+    rpc ProduceStream(stream ProduceRequest) returns (stream ProduceResponse) {}
+    }
+
+// Principal structure
 message Record {
     bytes value = 1;
-    uint64 offset = 2;
+    uint64 offset = 2; // Physical position
+    }
+
+// Responses and Requests structures
+// Produce --> Get record and returns its position
+// Consume --> Get position and returns the record
+message ProduceRequest {
+    Record record = 1;
+    }       
+
+message ProduceResponse {
+    uint64 offset = 1;
+    }   
+
+message ConsumeRequest {
+    uint64 offset = 1;
+    }
+
+message ConsumeResponse {
+    Record record = 2;
     }
