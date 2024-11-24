@@ -14,6 +14,7 @@ service Log {
     // ProduceStream --> Bidirectional streaming RPC
     // Comunication between Client and Server using read-write stream
     rpc ProduceStream(stream ProduceRequest) returns (stream ProduceResponse) {}
+    rpc GetServers(GetServersRequest) returns (GetServersResponse) {}
     }
 
 // Principal structure
@@ -43,3 +44,15 @@ message ConsumeRequest {
 message ConsumeResponse {
     Record record = 2;
     }
+
+message GetServersRequest {}
+
+message GetServersResponse {
+    repeated Server servers = 1;
+}
+
+message Server {
+    string id = 1;
+    string rpc_addr = 2;
+    bool is_leader = 3;
+}
