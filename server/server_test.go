@@ -251,6 +251,8 @@ func testUnauthorized(
 	if gotCode != wantCode {
 		t.Fatalf("got code: %d, want: %d", gotCode, wantCode)
 	}
+
+
 	consume, err := client.Consume(ctx, &api.ConsumeRequest{
 		Offset: 0,
 	})
