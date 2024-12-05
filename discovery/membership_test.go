@@ -9,6 +9,7 @@ import (
 
 	"github.com/hashicorp/serf/serf"
 	"github.com/stretchr/testify/require"
+	"github.com/travisjeffery/go-dynaport"
 )
 
 func TestMembership(t *testing.T) {
